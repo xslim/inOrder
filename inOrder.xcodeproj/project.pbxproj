@@ -1,0 +1,460 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		553274481316817400561100 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 553274471316817400561100 /* Cocoa.framework */; };
+		553274521316817400561100 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 553274501316817400561100 /* InfoPlist.strings */; };
+		553274551316817400561100 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 553274541316817400561100 /* main.m */; };
+		553274581316817500561100 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 553274561316817500561100 /* Credits.rtf */; };
+		5532745B1316817500561100 /* inOrderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5532745A1316817500561100 /* inOrderAppDelegate.m */; };
+		5532745E1316817500561100 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5532745C1316817500561100 /* MainMenu.xib */; };
+		553274651316817500561100 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 553274471316817400561100 /* Cocoa.framework */; };
+		5532746D1316817500561100 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5532746B1316817500561100 /* InfoPlist.strings */; };
+		553274701316817500561100 /* inOrderTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 5532746F1316817500561100 /* inOrderTests.h */; };
+		553274721316817500561100 /* inOrderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 553274711316817500561100 /* inOrderTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		553274661316817500561100 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5532743A1316817400561100 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 553274421316817400561100;
+			remoteInfo = inOrder;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		553274431316817400561100 /* inOrder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inOrder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		553274471316817400561100 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		5532744A1316817400561100 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		5532744B1316817400561100 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		5532744C1316817400561100 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		5532744F1316817400561100 /* inOrder-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "inOrder-Info.plist"; sourceTree = "<group>"; };
+		553274511316817400561100 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		553274531316817400561100 /* inOrder-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "inOrder-Prefix.pch"; sourceTree = "<group>"; };
+		553274541316817400561100 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		553274571316817500561100 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		553274591316817500561100 /* inOrderAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inOrderAppDelegate.h; sourceTree = "<group>"; };
+		5532745A1316817500561100 /* inOrderAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = inOrderAppDelegate.m; sourceTree = "<group>"; };
+		5532745D1316817500561100 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		553274641316817500561100 /* inOrderTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = inOrderTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5532746A1316817500561100 /* inOrderTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "inOrderTests-Info.plist"; sourceTree = "<group>"; };
+		5532746C1316817500561100 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5532746E1316817500561100 /* inOrderTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "inOrderTests-Prefix.pch"; sourceTree = "<group>"; };
+		5532746F1316817500561100 /* inOrderTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inOrderTests.h; sourceTree = "<group>"; };
+		553274711316817500561100 /* inOrderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = inOrderTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		553274401316817400561100 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				553274481316817400561100 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		553274601316817500561100 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				553274651316817500561100 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		553274381316817400561100 = {
+			isa = PBXGroup;
+			children = (
+				5532744D1316817400561100 /* inOrder */,
+				553274681316817500561100 /* inOrderTests */,
+				553274461316817400561100 /* Frameworks */,
+				553274441316817400561100 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		553274441316817400561100 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				553274431316817400561100 /* inOrder.app */,
+				553274641316817500561100 /* inOrderTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		553274461316817400561100 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				553274471316817400561100 /* Cocoa.framework */,
+				553274491316817400561100 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		553274491316817400561100 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5532744A1316817400561100 /* AppKit.framework */,
+				5532744B1316817400561100 /* CoreData.framework */,
+				5532744C1316817400561100 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		5532744D1316817400561100 /* inOrder */ = {
+			isa = PBXGroup;
+			children = (
+				553274591316817500561100 /* inOrderAppDelegate.h */,
+				5532745A1316817500561100 /* inOrderAppDelegate.m */,
+				5532745C1316817500561100 /* MainMenu.xib */,
+				5532744E1316817400561100 /* Supporting Files */,
+			);
+			path = inOrder;
+			sourceTree = "<group>";
+		};
+		5532744E1316817400561100 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5532744F1316817400561100 /* inOrder-Info.plist */,
+				553274501316817400561100 /* InfoPlist.strings */,
+				553274531316817400561100 /* inOrder-Prefix.pch */,
+				553274541316817400561100 /* main.m */,
+				553274561316817500561100 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		553274681316817500561100 /* inOrderTests */ = {
+			isa = PBXGroup;
+			children = (
+				5532746F1316817500561100 /* inOrderTests.h */,
+				553274711316817500561100 /* inOrderTests.m */,
+				553274691316817500561100 /* Supporting Files */,
+			);
+			path = inOrderTests;
+			sourceTree = "<group>";
+		};
+		553274691316817500561100 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5532746A1316817500561100 /* inOrderTests-Info.plist */,
+				5532746B1316817500561100 /* InfoPlist.strings */,
+				5532746E1316817500561100 /* inOrderTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		553274421316817400561100 /* inOrder */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 553274751316817500561100 /* Build configuration list for PBXNativeTarget "inOrder" */;
+			buildPhases = (
+				5532743F1316817400561100 /* Sources */,
+				553274401316817400561100 /* Frameworks */,
+				553274411316817400561100 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = inOrder;
+			productName = inOrder;
+			productReference = 553274431316817400561100 /* inOrder.app */;
+			productType = "com.apple.product-type.application";
+		};
+		553274631316817500561100 /* inOrderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 553274781316817500561100 /* Build configuration list for PBXNativeTarget "inOrderTests" */;
+			buildPhases = (
+				5532745F1316817500561100 /* Sources */,
+				553274601316817500561100 /* Frameworks */,
+				553274611316817500561100 /* Resources */,
+				553274621316817500561100 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				553274671316817500561100 /* PBXTargetDependency */,
+			);
+			name = inOrderTests;
+			productName = inOrderTests;
+			productReference = 553274641316817500561100 /* inOrderTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5532743A1316817400561100 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = Ciklum;
+			};
+			buildConfigurationList = 5532743D1316817400561100 /* Build configuration list for PBXProject "inOrder" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 553274381316817400561100;
+			productRefGroup = 553274441316817400561100 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				553274421316817400561100 /* inOrder */,
+				553274631316817500561100 /* inOrderTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		553274411316817400561100 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				553274521316817400561100 /* InfoPlist.strings in Resources */,
+				553274581316817500561100 /* Credits.rtf in Resources */,
+				5532745E1316817500561100 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		553274611316817500561100 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5532746D1316817500561100 /* InfoPlist.strings in Resources */,
+				553274701316817500561100 /* inOrderTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		553274621316817500561100 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5532743F1316817400561100 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				553274551316817400561100 /* main.m in Sources */,
+				5532745B1316817500561100 /* inOrderAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5532745F1316817500561100 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				553274721316817500561100 /* inOrderTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		553274671316817500561100 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 553274421316817400561100 /* inOrder */;
+			targetProxy = 553274661316817500561100 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		553274501316817400561100 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				553274511316817400561100 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		553274561316817500561100 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				553274571316817500561100 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		5532745C1316817500561100 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5532745D1316817500561100 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		5532746B1316817500561100 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5532746C1316817500561100 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		553274731316817500561100 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		553274741316817500561100 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		553274761316817500561100 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "inOrder/inOrder-Prefix.pch";
+				INFOPLIST_FILE = "inOrder/inOrder-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		553274771316817500561100 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "inOrder/inOrder-Prefix.pch";
+				INFOPLIST_FILE = "inOrder/inOrder-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		553274791316817500561100 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/inOrder.app/Contents/MacOS/inOrder";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "inOrderTests/inOrderTests-Prefix.pch";
+				INFOPLIST_FILE = "inOrderTests/inOrderTests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		5532747A1316817500561100 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/inOrder.app/Contents/MacOS/inOrder";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "inOrderTests/inOrderTests-Prefix.pch";
+				INFOPLIST_FILE = "inOrderTests/inOrderTests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5532743D1316817400561100 /* Build configuration list for PBXProject "inOrder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				553274731316817500561100 /* Debug */,
+				553274741316817500561100 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		553274751316817500561100 /* Build configuration list for PBXNativeTarget "inOrder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				553274761316817500561100 /* Debug */,
+				553274771316817500561100 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		553274781316817500561100 /* Build configuration list for PBXNativeTarget "inOrderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				553274791316817500561100 /* Debug */,
+				5532747A1316817500561100 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5532743A1316817400561100 /* Project object */;
+}
