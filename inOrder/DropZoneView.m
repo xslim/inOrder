@@ -20,6 +20,8 @@
     if(self) {
         NSLog(@"initing DropZoneView");
         
+
+        
         NSArray *dragTypes = [NSArray arrayWithObjects:/*NSCreateFileContentsPboardType(@"xcodeproj"), NSCreateFileContentsPboardType(@"pbxproj"),*/ NSFilenamesPboardType, nil];
         
         [self registerForDraggedTypes:dragTypes];
@@ -79,8 +81,10 @@
     
     if ([[pboard types] containsObject:NSFilenamesPboardType]) {
         if (sourceDragMask & NSDragOperationLink) {
+            NSLog(@"NSDragOperationLink");
             return NSDragOperationLink;
         } else if (sourceDragMask & NSDragOperationCopy) {
+            NSLog(@"NSDragOperationCopy");
             return NSDragOperationCopy;
         }
     }
