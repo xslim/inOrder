@@ -14,5 +14,6 @@
 }
 
 @property (assign) IBOutlet NSWindow *window;
+@property (retain) IBOutlet NSView *dropZone;
 
 @end
