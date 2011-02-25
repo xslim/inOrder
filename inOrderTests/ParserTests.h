@@ -8,10 +8,13 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
+@class Parser;
 
 @interface ParserTests : SenTestCase {
 @private
     
 }
+
+@property (retain) Parser *parser;
 
 @end

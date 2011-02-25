@@ -62,7 +62,8 @@
 @property (retain) NSMutableString *groupPath;
 @property (retain) NSMutableArray *pathArray;
 
-- (void)parseFile:(NSString *)fileName;
+- (void)openFile:(NSString *)fileName;
+- (BOOL)saveFileTo:(NSString *)path;
 //- (NSString *)archiveFile;
 - (void)populateFilesAndGroups;
 - (void)printPaths;

@@ -46,7 +46,7 @@
 	[super dealloc];
 }
 
-- (void)parseFile:(NSString *)fileName {
+- (void)openFile:(NSString *)fileName {
 	NSData *data = [NSData dataWithContentsOfFile:fileName];
 
 	if (!data) {
@@ -69,6 +69,11 @@
 	self.originalDict = d;
 
 	//NSLog(@"parsed file:\n%@", d);
+}
+
+- (BOOL)saveFileTo:(NSString *)path
+{
+    return [self.originalDict writeToFile:path atomically:YES];
 }
 
 //- (NSString *)archiveFile {

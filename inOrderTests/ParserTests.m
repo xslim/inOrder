@@ -11,18 +11,36 @@
 
 @implementation ParserTests
 
+@synthesize parser;
+
 - (void)setUp
 {
     [super setUp];
     
     // Set-up code here.
+    self.parser = [[Parser alloc] init];
+    
+    NSString *dataFile = [[NSBundle bundleForClass:[self class]] pathForResource:@"project" ofType:@"pbxproj"];
+    [self.parser openFile:dataFile];
 }
 
 - (void)tearDown
 {
     // Tear-down code here.
+    self.parser = nil;
     
     [super tearDown];
+}
+
+- (void)testSave
+{
+    NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *path = [documentsPath stringByAppendingPathComponent:@"newProject.pbxproj"];
+    
+    NSLog(@"testSave to %@", path);
+    BOOL isOk = [self.parser saveFileTo:path];
+    
+    STAssertTrue(isOk, @"Saving to %@ should work", path);
 }
 
 - (void)test
@@ -31,7 +49,7 @@
     
     Parser *p = [[Parser alloc] init];
     
-    [p parseFile:dataFile];
+    [p openFile:dataFile];
     [p populateFilesAndGroups];
     
     [p printPaths];
