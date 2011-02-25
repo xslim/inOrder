@@ -20,6 +20,7 @@
 		55327485131682EA00561100 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 55327483131682EA00561100 /* Parser.m */; };
 		55327486131682EA00561100 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 55327483131682EA00561100 /* Parser.m */; };
 		553274911316844C00561100 /* project.pbxproj in Resources */ = {isa = PBXBuildFile; fileRef = 553274901316844C00561100 /* project.pbxproj */; };
+		5532758813183F5F00561100 /* ParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5532758713183F5E00561100 /* ParserTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,8 @@
 		55327483131682EA00561100 /* Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Parser.m; sourceTree = "<group>"; };
 		55327484131682EA00561100 /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
 		553274901316844C00561100 /* project.pbxproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.pbxproject; path = project.pbxproj; sourceTree = "<group>"; };
+		5532758613183F5E00561100 /* ParserTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParserTests.h; sourceTree = "<group>"; };
+		5532758713183F5E00561100 /* ParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParserTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +148,8 @@
 			children = (
 				5532746F1316817500561100 /* inOrderTests.h */,
 				553274711316817500561100 /* inOrderTests.m */,
+				5532758613183F5E00561100 /* ParserTests.h */,
+				5532758713183F5E00561100 /* ParserTests.m */,
 				553274691316817500561100 /* Supporting Files */,
 			);
 			path = inOrderTests;
@@ -282,6 +287,7 @@
 			files = (
 				553274721316817500561100 /* inOrderTests.m in Sources */,
 				55327486131682EA00561100 /* Parser.m in Sources */,
+				5532758813183F5F00561100 /* ParserTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

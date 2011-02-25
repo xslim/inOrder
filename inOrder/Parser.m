@@ -237,7 +237,7 @@
 	}
 }
 
--(NSString*)getFileDirectory:(NSString *)fileKey
+-(NSString *)getFileDirectory:(NSString *)fileKey
 {
 	NSString *path;
 	for(NSDictionary *dict in self.files)
