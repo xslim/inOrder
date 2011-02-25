@@ -34,8 +34,16 @@
 
 - (void)testSave
 {
+    NSError *error = nil;
     NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    NSString *path = [documentsPath stringByAppendingPathComponent:@"newProject.pbxproj"];
+    NSString *path = [documentsPath stringByAppendingPathComponent:@"test.xcodeproj"];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:&error];
+    
+    STAssertNil(error, @"Error while creating test.xcodeproj: %@", [error localizedDescription]);
+    
+    
+    path = [path stringByAppendingPathComponent:@"project.pbxproj"];
     
     NSLog(@"testSave to %@", path);
     BOOL isOk = [self.parser saveFileTo:path];
