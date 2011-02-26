@@ -24,7 +24,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
-    
+    [self.window setBackgroundColor:[NSColor colorWithPatternImage:[NSImage imageNamed:@"bgPattern.png"]]];
 
     
 }

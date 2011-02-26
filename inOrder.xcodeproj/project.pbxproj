@@ -21,6 +21,10 @@
 		55327486131682EA00561100 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 55327483131682EA00561100 /* Parser.m */; };
 		553274911316844C00561100 /* project.pbxproj in Resources */ = {isa = PBXBuildFile; fileRef = 553274901316844C00561100 /* project.pbxproj */; };
 		5532758813183F5F00561100 /* ParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5532758713183F5E00561100 /* ParserTests.m */; };
+		55BAF14513185FF20097CAAC /* dropZone.png in Resources */ = {isa = PBXBuildFile; fileRef = 55BAF14313185FF20097CAAC /* dropZone.png */; };
+		55BAF14613185FF20097CAAC /* xcode.png in Resources */ = {isa = PBXBuildFile; fileRef = 55BAF14413185FF20097CAAC /* xcode.png */; };
+		55BAF149131862BD0097CAAC /* DropZoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BAF148131862BD0097CAAC /* DropZoneView.m */; };
+		55BAF153131876120097CAAC /* bgPattern.png in Resources */ = {isa = PBXBuildFile; fileRef = 55BAF152131876120097CAAC /* bgPattern.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +62,11 @@
 		553274901316844C00561100 /* project.pbxproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.pbxproject; path = project.pbxproj; sourceTree = "<group>"; };
 		5532758613183F5E00561100 /* ParserTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParserTests.h; sourceTree = "<group>"; };
 		5532758713183F5E00561100 /* ParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParserTests.m; sourceTree = "<group>"; };
+		55BAF14313185FF20097CAAC /* dropZone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropZone.png; sourceTree = "<group>"; };
+		55BAF14413185FF20097CAAC /* xcode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xcode.png; sourceTree = "<group>"; };
+		55BAF147131862BD0097CAAC /* DropZoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropZoneView.h; sourceTree = "<group>"; };
+		55BAF148131862BD0097CAAC /* DropZoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropZoneView.m; sourceTree = "<group>"; };
+		55BAF152131876120097CAAC /* bgPattern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bgPattern.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +134,10 @@
 				55327483131682EA00561100 /* Parser.m */,
 				553274591316817500561100 /* inOrderAppDelegate.h */,
 				5532745A1316817500561100 /* inOrderAppDelegate.m */,
+				55BAF147131862BD0097CAAC /* DropZoneView.h */,
+				55BAF148131862BD0097CAAC /* DropZoneView.m */,
 				5532745C1316817500561100 /* MainMenu.xib */,
+				55BAF14213185FF20097CAAC /* Images */,
 				5532744E1316817400561100 /* Supporting Files */,
 			);
 			path = inOrder;
@@ -164,6 +176,16 @@
 				5532746E1316817500561100 /* inOrderTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		55BAF14213185FF20097CAAC /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				55BAF152131876120097CAAC /* bgPattern.png */,
+				55BAF14313185FF20097CAAC /* dropZone.png */,
+				55BAF14413185FF20097CAAC /* xcode.png */,
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,6 +261,9 @@
 				553274521316817400561100 /* InfoPlist.strings in Resources */,
 				553274581316817500561100 /* Credits.rtf in Resources */,
 				5532745E1316817500561100 /* MainMenu.xib in Resources */,
+				55BAF14513185FF20097CAAC /* dropZone.png in Resources */,
+				55BAF14613185FF20097CAAC /* xcode.png in Resources */,
+				55BAF153131876120097CAAC /* bgPattern.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +303,7 @@
 				553274551316817400561100 /* main.m in Sources */,
 				5532745B1316817500561100 /* inOrderAppDelegate.m in Sources */,
 				55327485131682EA00561100 /* Parser.m in Sources */,
+				55BAF149131862BD0097CAAC /* DropZoneView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
