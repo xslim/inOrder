@@ -24,8 +24,16 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
-    
+    [self.window setBackgroundColor:[NSColor colorWithPatternImage:[NSImage imageNamed:@"bgPattern.png"]]];
+    NSButton *btn = [self.window standardWindowButton:NSWindowZoomButton];
+    [btn setHidden:YES];
 
+    for (NSView *v in [[[self.window contentView] superview] subviews]) {
+        NSLog(@"v: %@, rect: %@", v, NSStringFromRect([v frame]));
+        for (NSView *vv in [v subviews]) {
+            NSLog(@"\tvv: %@, rect: %@", vv, NSStringFromRect([vv frame]));
+        }
+    }
     
 }
 

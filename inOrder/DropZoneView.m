@@ -25,6 +25,7 @@
         NSArray *dragTypes = [NSArray arrayWithObjects:/*NSCreateFileContentsPboardType(@"xcodeproj"), NSCreateFileContentsPboardType(@"pbxproj"),*/ NSFilenamesPboardType, nil];
         
         [self registerForDraggedTypes:dragTypes];
+        //[NSColor clearColor];
     }
     return self;
 }
@@ -34,17 +35,31 @@
     [super dealloc];
 }
 
+- (void)drawRect:(NSRect)frame {
 
+    
+    highlight ? [[NSColor highlightColor] set] : [[NSColor clearColor] set];
+    [NSBezierPath setDefaultLineWidth:4.0];
+    if (highlight) {
+        [super drawRect:frame];
+        [NSBezierPath strokeRect:frame]; // will give a 2 pixel wide border
+    } else {
+        [NSBezierPath fillRect:frame];
+        [super drawRect:frame];
+    }
+}
 
 #pragma mark -
 #pragma mark Dragging delegates
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
 {
-    NSLog(@"performDragOperation sender: %@", sender);
+    NSLog(@"performDragOperation sender: %@\ntypes:\n%@", sender, [[sender draggingPasteboard] types]);
     
     
     NSPasteboard *pboard = [sender draggingPasteboard];
+    
+    
     
     if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
         NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
@@ -52,6 +67,9 @@
         // Perform operation using the list of files
         
         NSLog(@"performDragOperation files: %@", files);
+        
+        highlight = NO;//remove highlight of the drop zone
+        [self setNeedsDisplay:YES];
         
     }
     return YES;
@@ -68,11 +86,11 @@
      if ( [NSImage canInitWithPasteboard:[sender draggingPasteboard]] &&
      [sender draggingSourceOperationMask] &
      NSDragOperationCopy ) {
-     highlight=YES;//highlight our drop zone
-     [self setNeedsDisplay: YES];
+     
      return NSDragOperationCopy; //accept data as a copy operation
      }
      */
+
     
     //NSFilenamesPboardType
     
@@ -80,6 +98,10 @@
     NSPasteboard *pboard = [sender draggingPasteboard];
     
     if ([[pboard types] containsObject:NSFilenamesPboardType]) {
+        
+        highlight = YES;//highlight our drop zone
+        [self setNeedsDisplay:YES];
+        
         if (sourceDragMask & NSDragOperationLink) {
             NSLog(@"NSDragOperationLink");
             return NSDragOperationLink;
@@ -97,8 +119,8 @@
     // method called whenever a drag exits our drop zone
     //NSLog(@"draggingExited: %@", sender);
     
-    //highlight=NO;//remove highlight of the drop zone
-    //[self setNeedsDisplay: YES];
+    highlight = NO;//remove highlight of the drop zone
+    [self setNeedsDisplay:YES];
 }
 
 

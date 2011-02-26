@@ -11,7 +11,7 @@
 
 @interface DropZoneView : NSImageView {
 @private
-    
+    BOOL highlight;
 }
 
 @end
