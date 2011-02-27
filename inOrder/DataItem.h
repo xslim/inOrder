@@ -13,6 +13,7 @@
     NSString *relativePath;
     DataItem *parent;
     NSMutableArray *children;
+    int index;
 }
 
 + (DataItem *)rootItem;
@@ -20,5 +21,8 @@
 - (DataItem *)childAtIndex:(NSInteger)n;	// Invalid to call on leaf nodes
 - (NSString *)fullPath;
 - (NSString *)relativePath;
+
+//- (BOOL)isGroup;
+- (BOOL)isFile;
 
 @end

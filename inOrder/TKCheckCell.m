@@ -13,10 +13,19 @@
 
 - (void)setObjectValue:(id)object {
     
+    //hideCheckbox = [[object valueForKey:@"hideCheckbox"] boolValue];
+    
     [super setObjectValue:[object valueForKey:@"state"]];
     
     [self setTitle:[object valueForKey:@"title"]];
     
 }
+
+/*
+-(void)drawWithFrame:(NSRect)frame inView:(NSView *)view {
+    if(!hideCheckbox)
+        [super drawWithFrame:frame inView:view];
+}
+*/
 
 @end

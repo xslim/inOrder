@@ -11,7 +11,9 @@
 
 @interface TKCheckCell : NSButtonCell {
 @private
-    
+    //BOOL hideCheckbox;
 }
+
+
 
 @end

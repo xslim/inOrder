@@ -73,7 +73,7 @@ static NSString *kPBChildren = @"children";
 
 	self.originalDict = d;
 
-	//NSLog(@"parsed file:\n%@", d);
+	NSLog(@"parsed file:\n%@", d);
 }
 
 - (BOOL)saveFileTo:(NSString *)path
@@ -105,14 +105,30 @@ static NSString *kPBChildren = @"children";
 
 - (NSDictionary *)fileDictFromDict:(NSDictionary *)dict key:(NSString *)key
 {
+    
+    // Move only files in our project
+    NSString *source = [dict objectForKey:@"sourceTree"];
+    if (!([source isEqualToString:@"SOURCE_ROOT"] ||
+        [source isEqualToString:@"<group>"])) {
+        NSLog(@"Bad file: %@", dict);
+        return nil;
+    }
+    
     NSString *name = [dict objectForKey:kPBName];
     NSString *path = [dict objectForKey:kPBPath];
     
-    if (!name) name = path;
+    if (!name && !path) {
+        NSLog(@"Bad %@ file: %@", key, dict); return nil;
+    }
     
+    if (!name) name = path;
+    if (!path) path = name;
+    
+    /*
     if ([name rangeOfString:@"framework"].location != NSNotFound) {
         NSLog(@"Found framework: %@", dict);
     }
+    */
     
     return [NSDictionary dictionaryWithObjectsAndKeys:
             key, kPBKey,
@@ -123,12 +139,30 @@ static NSString *kPBChildren = @"children";
 
 - (NSDictionary *)groupDictFromDict:(NSDictionary *)dict key:(NSString *)key
 {
+    
+    // Move only dirs in our project
+    NSString *source = [dict objectForKey:@"sourceTree"];
+    if (!([source isEqualToString:@"SOURCE_ROOT"] ||
+          [source isEqualToString:@"<group>"])) {
+        NSLog(@"Bad group: %@", dict);
+        
+        // TODO: clean file array to remove files without group
+        
+        return nil;
+    }
+    
     NSString *name = [dict objectForKey:kPBName];
     NSString *path = [dict objectForKey:kPBPath];
     
     //if (name || path) {
     
+    if (!name && !path) {
+        NSLog(@"Found root group %@ : %@", key, dict);
+        name = @""; // not to insert nil
+    }
+    
     if (!name) name = path;
+    if (!path) path = name;
     
     return [NSDictionary dictionaryWithObjectsAndKeys:
             key, kPBKey,
@@ -149,14 +183,17 @@ static NSString *kPBChildren = @"children";
     
     [objects enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
 
+        //NSLog(@"sourceTree: %@", [obj objectForKey:@"sourceTree"]);
+        //SDKROOT, SOURCE_ROOT, BUILT_PRODUCTS_DIR, <group>, (null), 
+
         NSString *isaType = [obj objectForKey:kIsa];
         
         if ([isaType isEqualToString:kFileType]) {
 			NSDictionary *d = [self fileDictFromDict:obj key:key];
-			[self.files addObject:d];
+			if (d) [self.files addObject:d];
 		} else if ([isaType isEqualToString:kGroupType]) {
 			NSDictionary *d = [self groupDictFromDict:obj key:key];
-			[self.groups addObject:d];
+			if (d) [self.groups addObject:d];
 		} else if ([isaType isEqualToString:kConfigurationListType]) {
             
             if (self.masterKey) {
