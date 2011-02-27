@@ -16,4 +16,6 @@
 @property (assign) IBOutlet NSWindow *window;
 @property (retain) IBOutlet NSView *dropZone;
 
+- (IBAction)testParser;
+
 @end

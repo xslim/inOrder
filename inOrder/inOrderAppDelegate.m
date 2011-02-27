@@ -7,6 +7,7 @@
 //
 
 #import "inOrderAppDelegate.h"
+#import "Parser.h"
 
 @implementation inOrderAppDelegate
 
@@ -28,12 +29,8 @@
     NSButton *btn = [self.window standardWindowButton:NSWindowZoomButton];
     [btn setHidden:YES];
 
-    for (NSView *v in [[[self.window contentView] superview] subviews]) {
-        NSLog(@"v: %@, rect: %@", v, NSStringFromRect([v frame]));
-        for (NSView *vv in [v subviews]) {
-            NSLog(@"\tvv: %@, rect: %@", vv, NSStringFromRect([vv frame]));
-        }
-    }
+
+    [self testParser];
     
 }
 
@@ -57,6 +54,28 @@
 	
     
     return YES;
+}
+
+#pragma mark -
+#pragma mark IBActions
+
+- (IBAction)testParser
+{
+    Parser *p = [[Parser alloc] init];
+    
+    NSString *dataFile = [[NSBundle bundleForClass:[self class]] pathForResource:@"project" ofType:@"pbxproj"];
+    [p openFile:dataFile];
+    
+    [p populateFilesAndGroups];
+    
+    [p printFiles];
+    [p printGroups];
+    
+    //[p printPaths];
+    //NSLog(@"result %@", p.files);
+    
+    [p release];
+    
 }
 
 

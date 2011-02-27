@@ -22,6 +22,11 @@
 
 @synthesize originalDict, files, groups, masterKey, currentGroupKey, resultArray, groupPath, pathArray;
 
+static NSString *kPBKey = @"key";
+static NSString *kPBName = @"name";
+static NSString *kPBPath = @"path";
+static NSString *kPBChildren = @"children";
+
 - (id)init {
 	self = [super init];
 
@@ -98,61 +103,92 @@
 //    return nil;
 //}
 
+- (NSDictionary *)fileDictFromDict:(NSDictionary *)dict key:(NSString *)key
+{
+    NSString *name = [dict objectForKey:kPBName];
+    NSString *path = [dict objectForKey:kPBPath];
+    
+    if (!name) name = path;
+    
+    if ([name rangeOfString:@"framework"].location != NSNotFound) {
+        NSLog(@"Found framework: %@", dict);
+    }
+    
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            key, kPBKey,
+            name, kPBName,
+            path, kPBPath,
+            nil];
+}
+
+- (NSDictionary *)groupDictFromDict:(NSDictionary *)dict key:(NSString *)key
+{
+    NSString *name = [dict objectForKey:kPBName];
+    NSString *path = [dict objectForKey:kPBPath];
+    
+    //if (name || path) {
+    
+    if (!name) name = path;
+    
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            key, kPBKey,
+            name, kPBName,
+            path, kPBPath,
+            [dict objectForKey:kPBChildren], kPBChildren,
+            nil];
+}
 
 - (void)populateFilesAndGroups {
 	static NSString *kFileType = @"PBXFileReference";
 	static NSString *kGroupType = @"PBXGroup";
 	static NSString *kConfigurationListType = @"PBXProject";
+    static NSString *kIsa = @"isa";
+
 
 	NSDictionary *objects = [self.originalDict objectForKey:@"objects"];
+    
+    [objects enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
 
-	for (NSString *key in objects) {
-		NSDictionary *d = [objects objectForKey:key];
-
-		//NSLog(@"d: %@", [d objectForKey:@"isa"]);
-
-		if ([[d objectForKey:@"isa"] isEqualToString:kFileType]) {
-			NSString *name = [d objectForKey:@"name"];
-			NSString *path = [d objectForKey:@"path"];
-
-			if (!name) name = path;
-			//NSLog(@"file path %@", path);
-			NSDictionary *newD = [NSDictionary dictionaryWithObjectsAndKeys:
-			                      key, @"key",
-			                      name, @"name",
-			                      path, @"path",
-			                      nil];
-
-			[self.files addObject:newD];
-		} else if ([[d objectForKey:@"isa"] isEqualToString:kGroupType]) {
-			NSString *name = [d objectForKey:@"name"];
-			NSString *path = [d objectForKey:@"path"];
-
-			if (!name) name = path;
-
-			//if (!path) NSLog(@" --> d: %@", d);
-
-			NSDictionary *newD = [NSDictionary dictionaryWithObjectsAndKeys:
-			                      key, @"key",
-			                      [d objectForKey:@"children"], @"children",
-			                      name, @"name",
-			                      path, @"path",
-			                      nil];
-
-			//if (name || path) {
-			[self.groups addObject:newD];
-			//}
-		} else if ([[d objectForKey:@"isa"] isEqualToString:kConfigurationListType]) {
-			self.masterKey = [d objectForKey:@"mainGroup"];
+        NSString *isaType = [obj objectForKey:kIsa];
+        
+        if ([isaType isEqualToString:kFileType]) {
+			NSDictionary *d = [self fileDictFromDict:obj key:key];
+			[self.files addObject:d];
+		} else if ([isaType isEqualToString:kGroupType]) {
+			NSDictionary *d = [self groupDictFromDict:obj key:key];
+			[self.groups addObject:d];
+		} else if ([isaType isEqualToString:kConfigurationListType]) {
+            
+            if (self.masterKey) {
+                NSLog(@"Error! MasterKey already set to: %@, found new: %@", self.masterKey, [obj objectForKey:@"mainGroup"]);
+            }
+            
+			self.masterKey = [obj objectForKey:@"mainGroup"];
 		}
-	}
+    }];
+
 
 	//NSLog(@"files: %@", self.files);
 	//NSLog(@"groups: %@", self.groups);
 }
 
+- (void)printFiles {
+    NSLog(@"Files: ");
+    [self.files enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSLog(@"\t%@ %@ -> %@", [obj objectForKey:kPBKey], [obj objectForKey:kPBName], [obj objectForKey:kPBPath]);
+    }];
+}
+
+- (void)printGroups {
+    NSLog(@"Groups: ");
+    [self.groups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSLog(@"\t%@ %@ -> %@", [obj objectForKey:kPBKey], [obj objectForKey:kPBName], [obj objectForKey:kPBPath]);
+    }];
+}
+
 - (void)printPaths {
 	//NSLog(@"%@", self.files);
+    
 	NSString *groupToSearch;
 	if (self.currentGroupKey) {
 		groupToSearch = self.currentGroupKey;

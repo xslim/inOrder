@@ -66,6 +66,9 @@
 - (BOOL)saveFileTo:(NSString *)path;
 //- (NSString *)archiveFile;
 - (void)populateFilesAndGroups;
+
+- (void)printFiles;
+- (void)printGroups;
 - (void)printPaths;
 
 @end
