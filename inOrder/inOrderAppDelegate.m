@@ -68,8 +68,10 @@
     
     [p populateFilesAndGroups];
     
-    [p printFiles];
-    [p printGroups];
+    [p constructPaths];
+    
+    //[p printFiles];
+    //[p printGroups];
     
     //[p printPaths];
     //NSLog(@"result %@", p.files);

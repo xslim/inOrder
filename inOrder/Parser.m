@@ -33,6 +33,7 @@ static NSString *kPBChildren = @"children";
 	if (self) {
 		self.files = [NSMutableArray array];
 		self.groups = [NSMutableArray array];
+        self.pathArray = [NSMutableArray array];
 	}
 
 	return self;
@@ -73,7 +74,7 @@ static NSString *kPBChildren = @"children";
 
 	self.originalDict = d;
 
-	NSLog(@"parsed file:\n%@", d);
+	//NSLog(@"parsed file:\n%@", d);
 }
 
 - (BOOL)saveFileTo:(NSString *)path
@@ -173,6 +174,14 @@ static NSString *kPBChildren = @"children";
 }
 
 - (void)populateFilesAndGroups {
+    
+    NSString *rootObject = [self.originalDict objectForKey:@"rootObject"];
+    self.masterKey = [[[self.originalDict objectForKey:@"objects"] objectForKey:rootObject] objectForKey:@"mainGroup"];
+    
+    NSLog(@"rootObject: %@, mainGroup: %@", rootObject, self.masterKey);
+    
+    return;
+    
 	static NSString *kFileType = @"PBXFileReference";
 	static NSString *kGroupType = @"PBXGroup";
 	static NSString *kConfigurationListType = @"PBXProject";
@@ -221,6 +230,112 @@ static NSString *kPBChildren = @"children";
     [self.groups enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSLog(@"\t%@ %@ -> %@", [obj objectForKey:kPBKey], [obj objectForKey:kPBName], [obj objectForKey:kPBPath]);
     }];
+}
+
+
+- (NSDictionary *)dataForKey:(NSString *)key {
+    return [self.originalDict objectForKey:key];
+}
+
+- (NSString *)pathForFile:(NSString *)path group:(NSString *)group
+{
+    return [group stringByAppendingPathComponent:path];
+}
+
+- (void)pathForKey:(NSString *)key realPath:(NSString *)realPath virtualPath:(NSString *)virtualPath
+{
+    
+    static NSString *kIsa = @"isa";
+    static NSString *kFileType = @"PBXFileReference";
+	static NSString *kGroupType = @"PBXGroup";
+
+    
+    // Create realPath & virtualPath strings
+    if (!realPath) realPath = @"";
+    if (!virtualPath) virtualPath = @"";
+ 
+    //NSLog(@"starting pathForKey:%@ realPath:%@ virtualPath:%@", key, realPath, virtualPath);
+    
+    // Get data
+    NSDictionary *data = [[self.originalDict objectForKey:@"objects"] objectForKey:key];
+    
+    // Move only dirs in our project
+    NSString *source = [data objectForKey:@"sourceTree"];
+    if (!([source isEqualToString:@"SOURCE_ROOT"] ||
+          [source isEqualToString:@"<group>"])) {
+        //NSLog(@"Bad group: %@", data);
+        return;
+    }
+    
+    // Get name & path
+    NSString *name = [data objectForKey:kPBName];
+    NSString *path = [data objectForKey:kPBPath];
+    
+    // if name is same as path, xcode ignores it
+    
+    //if (!path) path = @"<no-path>";
+    //if (!name) name = @"<no-name>";
+    //if (!path) path = name;
+    
+    if ([source isEqualToString:@"SOURCE_ROOT"]) {
+        realPath = (path) ? path : @"no path?";
+        if (name) virtualPath = [virtualPath stringByAppendingPathComponent:name];
+    } else if ([source isEqualToString:@"<group>"]) {
+        realPath = (path) ? [realPath stringByAppendingPathComponent:path] : [realPath stringByAppendingPathComponent:name];
+        
+        //realPath = (name) ? [path stringByAppendingString:name] : path;
+        
+        virtualPath = (name) ? [virtualPath stringByAppendingPathComponent:name] : [virtualPath stringByAppendingPathComponent:path];
+    }
+    
+    // Check if data is group / file
+    NSString *isaType = [data objectForKey:kIsa];
+    
+    // if file
+    if ([isaType isEqualToString:kFileType]) {
+        
+        // use realPath & virtualPath
+        // Add it to array
+        // finish
+        
+        if (!path) path = @"";
+        if (!name) name = @"";
+        
+        NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
+                           key, @"key",
+                           virtualPath, @"virtualPath",
+                           realPath, @"realPath",
+                           name, @"name",
+                           path, @"path",
+                           source, @"source",
+                           nil];
+        [self.pathArray addObject:d];
+    
+    // if group
+    } else if ([isaType isEqualToString:kGroupType]) {
+    
+        // Append group name to realPath & virtualPath
+    
+        // foreach children
+        // Going deeper!
+        // pathForKey:childrenKey realPath:&realPath virtualPath:&virtualPath
+        
+        //virtualPath = [NSString stringWithFormat:@"%@[%@-%@]", virtualPath, source, path];
+        
+        realPath = (name) ? [path stringByAppendingString:name] : path;
+        
+        for (NSString *cKey in [data objectForKey:kPBChildren]) {
+            [self pathForKey:cKey realPath:realPath virtualPath:virtualPath];
+        }
+    }
+    
+}
+
+- (void)constructPaths
+{
+    
+    [self pathForKey:self.masterKey realPath:nil virtualPath:nil];
+    NSLog(@"paths: %@", self.pathArray);
 }
 
 - (void)printPaths {
