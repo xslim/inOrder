@@ -245,6 +245,8 @@ static NSString *kPBChildren = @"children";
 - (void)pathForKey:(NSString *)key realPath:(NSString *)realPath virtualPath:(NSString *)virtualPath
 {
     
+    BOOL firstPass = (!realPath && !virtualPath) ? YES : NO;
+    
     static NSString *kIsa = @"isa";
     static NSString *kFileType = @"PBXFileReference";
 	static NSString *kGroupType = @"PBXGroup";
@@ -278,10 +280,10 @@ static NSString *kPBChildren = @"children";
     //if (!path) path = name;
     
     if ([source isEqualToString:@"SOURCE_ROOT"]) {
-        realPath = (path) ? path : @"no path?";
+        //realPath = (path) ? path : @"no path?";
         if (name) virtualPath = [virtualPath stringByAppendingPathComponent:name];
     } else if ([source isEqualToString:@"<group>"]) {
-        realPath = (path) ? [realPath stringByAppendingPathComponent:path] : [realPath stringByAppendingPathComponent:name];
+        //realPath = (path) ? [realPath stringByAppendingPathComponent:path] : [realPath stringByAppendingPathComponent:name];
         
         //realPath = (name) ? [path stringByAppendingString:name] : path;
         
@@ -298,16 +300,20 @@ static NSString *kPBChildren = @"children";
         // Add it to array
         // finish
         
+        realPath = (path) ? [realPath stringByAppendingPathComponent:path] : [realPath stringByAppendingPathComponent:name];
+        
         if (!path) path = @"";
         if (!name) name = @"";
         
+        if ([virtualPath isEqualToString:realPath]) return;
+        
         NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
-                           key, @"key",
-                           virtualPath, @"virtualPath",
+                           //key, @"key",
+                           virtualPath, @"virtPath",
                            realPath, @"realPath",
                            name, @"name",
                            path, @"path",
-                           source, @"source",
+                           //source, @"source",
                            nil];
         [self.pathArray addObject:d];
     
@@ -320,9 +326,20 @@ static NSString *kPBChildren = @"children";
         // Going deeper!
         // pathForKey:childrenKey realPath:&realPath virtualPath:&virtualPath
         
-        //virtualPath = [NSString stringWithFormat:@"%@[%@-%@]", virtualPath, source, path];
+        //virtualPath = [NSString stringWithFormat:@"%@[%@-%@]", virtualPath, name, path];
         
-        realPath = (name) ? [path stringByAppendingString:name] : path;
+        //if (!realPath) realPath = @"";
+        //if (!virtualPath) virtualPath = @"";
+        
+        //if (!path) NSLog(@"no path in group: %@", data);
+        
+        //realPath = (name) ? [path stringByAppendingString:name] : path;
+        if (path) realPath = [realPath stringByAppendingPathComponent:path];
+        
+        if (firstPass) {
+            realPath = @"";
+            virtualPath = @"";
+        }
         
         for (NSString *cKey in [data objectForKey:kPBChildren]) {
             [self pathForKey:cKey realPath:realPath virtualPath:virtualPath];
