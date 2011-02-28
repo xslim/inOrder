@@ -11,10 +11,11 @@
 
 @implementation inOrderAppDelegate
 
-@synthesize window, dropZone;
+@synthesize window, mainView, dropZone;
 
 - (void)dealloc {
     self.window = nil;
+    self.mainView = nil;
     self.dropZone = nil;
     [super dealloc];
 }
