@@ -69,6 +69,8 @@
 @property (retain) NSMutableString *groupPath;
 @property (retain) NSMutableArray *pathArray;
 
+@property (retain) NSMutableArray *changedGroups;
+
 - (void)openFile:(NSString *)fileName;
 - (BOOL)saveFileTo:(NSString *)path;
 //- (NSString *)archiveFile;
@@ -79,5 +81,7 @@
 - (void)printFiles;
 - (void)printGroups;
 - (void)printPaths;
+
+- (void) organizePaths:(NSString *)filePath;
 
 @end

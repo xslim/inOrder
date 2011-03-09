@@ -13,14 +13,14 @@
 
 - (BOOL)isChildInGroupArray:(NSString *)childKey;
 - (int)getFileIndexInArray:(NSString *)fileKey;
--(NSString *)getFileDirectory:(NSString *)fileKey;
+- (NSString *)getFileDirectory:(NSString *)fileKey;
 
 @end
 
 
 @implementation Parser
 
-@synthesize originalDict, files, groups, masterKey, currentGroupKey, resultArray, groupPath, pathArray;
+@synthesize originalDict, files, groups, masterKey, currentGroupKey, resultArray, groupPath, pathArray, changedGroups;
 
 static NSString *kPBKey = @"key";
 static NSString *kPBName = @"name";
@@ -344,16 +344,82 @@ static NSString *kPBChildren = @"children";
         for (NSString *cKey in [data objectForKey:kPBChildren]) {
             [self pathForKey:cKey realPath:realPath virtualPath:virtualPath];
         }
-    }
-    
+    }    
 }
 
 - (void)constructPaths
 {
     
     [self pathForKey:self.masterKey realPath:nil virtualPath:nil];
-    NSLog(@"paths: %@", self.pathArray);
+    //NSLog(@"paths: %@", self.pathArray);    
 }
+
+- (BOOL)isComponent:(NSString *)component existsInPath:(NSString *)path
+{
+    BOOL isComponentExists = NO;
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSError *error;
+    NSArray *array = [fm contentsOfDirectoryAtPath:path error:&error];
+    
+    for (NSString *comp in array)
+    {
+        if ([comp isEqualToString:component])
+        {
+            isComponentExists = YES;
+        }
+    }    
+    
+    return isComponentExists;
+}
+
+- (void) organizePaths:(NSString *)projectFilePath
+{
+    //NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
+    
+    NSString *filePath = [projectFilePath stringByDeletingLastPathComponent];
+    
+    [self openFile:[projectFilePath stringByAppendingPathComponent:@"project.pbxproj"]];
+    
+    [self populateFilesAndGroups];
+    
+    [self constructPaths];
+    
+    [self printPaths];
+    
+    //NSLog(@"path array %@", self.pathArray);
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    for (NSDictionary *dict in self.pathArray)
+    {
+        NSString *virtualPath = [dict objectForKey:@"virtPath"];
+        NSArray *pathComponents = [virtualPath componentsSeparatedByString:@"/"];
+        
+        NSError *error = nil;
+        NSString *pathToCreate = filePath;
+        for (NSString *component in pathComponents)
+        {
+            NSRange range = [component rangeOfString:@"."];
+            if (range.location == NSNotFound)
+            {
+                    pathToCreate = [pathToCreate stringByAppendingPathComponent: component];
+            }
+        }
+        
+        if ([fm createDirectoryAtPath:pathToCreate withIntermediateDirectories:YES attributes:nil error:&error])
+        {
+            NSLog(@"copied path %@",pathToCreate);
+        }
+        else
+        {
+            NSLog(@"error %@", [error localizedDescription]);
+        }      
+    }
+}
+
+
+
+
 
 - (void)printPaths {
 	//NSLog(@"%@", self.files);
