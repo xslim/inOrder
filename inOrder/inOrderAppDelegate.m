@@ -11,10 +11,11 @@
 
 @implementation inOrderAppDelegate
 
-@synthesize window, dropZone;
+@synthesize window, mainView, dropZone;
 
 - (void)dealloc {
     self.window = nil;
+    self.mainView = nil;
     self.dropZone = nil;
     [super dealloc];
 }
@@ -61,20 +62,22 @@
 
 - (IBAction)testParser
 {
-    Parser *p = [[Parser alloc] init];
-    
-    NSString *dataFile = [[NSBundle bundleForClass:[self class]] pathForResource:@"project" ofType:@"pbxproj"];
-    [p openFile:dataFile];
-    
-    [p populateFilesAndGroups];
-    
-    [p printFiles];
-    [p printGroups];
-    
-    //[p printPaths];
-    //NSLog(@"result %@", p.files);
-    
-    [p release];
+//    Parser *p = [[Parser alloc] init];
+//    
+//    NSString *dataFile = [[NSBundle bundleForClass:[self class]] pathForResource:@"project" ofType:@"pbxproj"];
+//    [p openFile:dataFile];
+//    
+//    [p populateFilesAndGroups];
+//    
+//    [p constructPaths];
+//    
+//    //[p printFiles];
+//    //[p printGroups];
+//    
+//    //[p printPaths];
+//    //NSLog(@"result %@", p.files);
+//    
+//    [p release];
     
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "DropZoneView.h"
+#import "Parser.h"
 
 
 @implementation DropZoneView
@@ -57,8 +58,8 @@
     NSLog(@"performDragOperation sender: %@\ntypes:\n%@", sender, [[sender draggingPasteboard] types]);
     
     
-    NSPasteboard *pboard = [sender draggingPasteboard];
     
+    NSPasteboard *pboard = [sender draggingPasteboard];   
     
     
     if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
@@ -67,6 +68,10 @@
         // Perform operation using the list of files
         
         NSLog(@"performDragOperation files: %@", files);
+        
+        Parser *p = [[Parser alloc] init];
+        [p organizePaths:[files objectAtIndex:0]];
+        [p release];
         
         highlight = NO;//remove highlight of the drop zone
         [self setNeedsDisplay:YES];

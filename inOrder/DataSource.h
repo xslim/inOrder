@@ -11,7 +11,7 @@
 
 @interface DataSource : NSObject <NSOutlineViewDelegate, NSOutlineViewDataSource> {
 @private
-    
+    int kI;
 }
 
 @end

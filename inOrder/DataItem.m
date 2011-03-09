@@ -38,6 +38,7 @@ static DataItem *rootItem = nil;
 // Loads children incrementally
 //
 - (NSArray *)children {
+    index++;
     if (children == NULL) {
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *fullPath = [self fullPath];
@@ -77,6 +78,11 @@ static DataItem *rootItem = nil;
 - (NSInteger)numberOfChildren {
     id tmp = [self children];
     return (tmp == IsALeafNode) ? (-1) : [tmp count];
+}
+
+- (BOOL)isFile {
+    if (index > 3) return YES;
+    return NO;
 }
 
 @end

@@ -13,14 +13,14 @@
 
 - (BOOL)isChildInGroupArray:(NSString *)childKey;
 - (int)getFileIndexInArray:(NSString *)fileKey;
--(NSString *)getFileDirectory:(NSString *)fileKey;
+- (NSString *)getFileDirectory:(NSString *)fileKey;
 
 @end
 
 
 @implementation Parser
 
-@synthesize originalDict, files, groups, masterKey, currentGroupKey, resultArray, groupPath, pathArray;
+@synthesize originalDict, files, groups, masterKey, currentGroupKey, resultArray, groupPath, pathArray, changedGroups;
 
 static NSString *kPBKey = @"key";
 static NSString *kPBName = @"name";
@@ -33,6 +33,7 @@ static NSString *kPBChildren = @"children";
 	if (self) {
 		self.files = [NSMutableArray array];
 		self.groups = [NSMutableArray array];
+        self.pathArray = [NSMutableArray array];
 	}
 
 	return self;
@@ -105,14 +106,30 @@ static NSString *kPBChildren = @"children";
 
 - (NSDictionary *)fileDictFromDict:(NSDictionary *)dict key:(NSString *)key
 {
+    
+    // Move only files in our project
+    NSString *source = [dict objectForKey:@"sourceTree"];
+    if (!([source isEqualToString:@"SOURCE_ROOT"] ||
+        [source isEqualToString:@"<group>"])) {
+        NSLog(@"Bad file: %@", dict);
+        return nil;
+    }
+    
     NSString *name = [dict objectForKey:kPBName];
     NSString *path = [dict objectForKey:kPBPath];
     
-    if (!name) name = path;
+    if (!name && !path) {
+        NSLog(@"Bad %@ file: %@", key, dict); return nil;
+    }
     
+    if (!name) name = path;
+    if (!path) path = name;
+    
+    /*
     if ([name rangeOfString:@"framework"].location != NSNotFound) {
         NSLog(@"Found framework: %@", dict);
     }
+    */
     
     return [NSDictionary dictionaryWithObjectsAndKeys:
             key, kPBKey,
@@ -123,12 +140,30 @@ static NSString *kPBChildren = @"children";
 
 - (NSDictionary *)groupDictFromDict:(NSDictionary *)dict key:(NSString *)key
 {
+    
+    // Move only dirs in our project
+    NSString *source = [dict objectForKey:@"sourceTree"];
+    if (!([source isEqualToString:@"SOURCE_ROOT"] ||
+          [source isEqualToString:@"<group>"])) {
+        NSLog(@"Bad group: %@", dict);
+        
+        // TODO: clean file array to remove files without group
+        
+        return nil;
+    }
+    
     NSString *name = [dict objectForKey:kPBName];
     NSString *path = [dict objectForKey:kPBPath];
     
     //if (name || path) {
     
+    if (!name && !path) {
+        NSLog(@"Found root group %@ : %@", key, dict);
+        name = @""; // not to insert nil
+    }
+    
     if (!name) name = path;
+    if (!path) path = name;
     
     return [NSDictionary dictionaryWithObjectsAndKeys:
             key, kPBKey,
@@ -139,6 +174,14 @@ static NSString *kPBChildren = @"children";
 }
 
 - (void)populateFilesAndGroups {
+    
+    NSString *rootObject = [self.originalDict objectForKey:@"rootObject"];
+    self.masterKey = [[[self.originalDict objectForKey:@"objects"] objectForKey:rootObject] objectForKey:@"mainGroup"];
+    
+    NSLog(@"rootObject: %@, mainGroup: %@", rootObject, self.masterKey);
+    
+    return;
+    
 	static NSString *kFileType = @"PBXFileReference";
 	static NSString *kGroupType = @"PBXGroup";
 	static NSString *kConfigurationListType = @"PBXProject";
@@ -149,14 +192,17 @@ static NSString *kPBChildren = @"children";
     
     [objects enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
 
+        //NSLog(@"sourceTree: %@", [obj objectForKey:@"sourceTree"]);
+        //SDKROOT, SOURCE_ROOT, BUILT_PRODUCTS_DIR, <group>, (null), 
+
         NSString *isaType = [obj objectForKey:kIsa];
         
         if ([isaType isEqualToString:kFileType]) {
 			NSDictionary *d = [self fileDictFromDict:obj key:key];
-			[self.files addObject:d];
+			if (d) [self.files addObject:d];
 		} else if ([isaType isEqualToString:kGroupType]) {
 			NSDictionary *d = [self groupDictFromDict:obj key:key];
-			[self.groups addObject:d];
+			if (d) [self.groups addObject:d];
 		} else if ([isaType isEqualToString:kConfigurationListType]) {
             
             if (self.masterKey) {
@@ -185,6 +231,195 @@ static NSString *kPBChildren = @"children";
         NSLog(@"\t%@ %@ -> %@", [obj objectForKey:kPBKey], [obj objectForKey:kPBName], [obj objectForKey:kPBPath]);
     }];
 }
+
+
+- (NSDictionary *)dataForKey:(NSString *)key {
+    return [self.originalDict objectForKey:key];
+}
+
+- (NSString *)pathForFile:(NSString *)path group:(NSString *)group
+{
+    return [group stringByAppendingPathComponent:path];
+}
+
+- (void)pathForKey:(NSString *)key realPath:(NSString *)realPath virtualPath:(NSString *)virtualPath
+{
+    
+    BOOL firstPass = (!realPath && !virtualPath) ? YES : NO;
+    
+    static NSString *kIsa = @"isa";
+    static NSString *kFileType = @"PBXFileReference";
+	static NSString *kGroupType = @"PBXGroup";
+
+    
+    // Create realPath & virtualPath strings
+    if (!realPath) realPath = @"";
+    if (!virtualPath) virtualPath = @"";
+ 
+    //NSLog(@"starting pathForKey:%@ realPath:%@ virtualPath:%@", key, realPath, virtualPath);
+    
+    // Get data
+    NSDictionary *data = [[self.originalDict objectForKey:@"objects"] objectForKey:key];
+    
+    // Move only dirs in our project
+    NSString *source = [data objectForKey:@"sourceTree"];
+    if (!([source isEqualToString:@"SOURCE_ROOT"] ||
+          [source isEqualToString:@"<group>"])) {
+        //NSLog(@"Bad group: %@", data);
+        return;
+    }
+    
+    // Get name & path
+    NSString *name = [data objectForKey:kPBName];
+    NSString *path = [data objectForKey:kPBPath];
+    
+    // if name is same as path, xcode ignores it
+    
+    //if (!path) path = @"<no-path>";
+    //if (!name) name = @"<no-name>";
+    //if (!path) path = name;
+    
+    if ([source isEqualToString:@"SOURCE_ROOT"]) {
+        //realPath = (path) ? path : @"no path?";
+        if (name) virtualPath = [virtualPath stringByAppendingPathComponent:name];
+    } else if ([source isEqualToString:@"<group>"]) {
+        //realPath = (path) ? [realPath stringByAppendingPathComponent:path] : [realPath stringByAppendingPathComponent:name];
+        
+        //realPath = (name) ? [path stringByAppendingString:name] : path;
+        
+        virtualPath = (name) ? [virtualPath stringByAppendingPathComponent:name] : [virtualPath stringByAppendingPathComponent:path];
+    }
+    
+    // Check if data is group / file
+    NSString *isaType = [data objectForKey:kIsa];
+    
+    // if file
+    if ([isaType isEqualToString:kFileType]) {
+        
+        // use realPath & virtualPath
+        // Add it to array
+        // finish
+        
+        realPath = (path) ? [realPath stringByAppendingPathComponent:path] : [realPath stringByAppendingPathComponent:name];
+        
+        if (!path) path = @"";
+        if (!name) name = @"";
+        
+        if ([virtualPath isEqualToString:realPath]) return;
+        
+        NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
+                           //key, @"key",
+                           virtualPath, @"virtPath",
+                           realPath, @"realPath",
+                           name, @"name",
+                           path, @"path",
+                           //source, @"source",
+                           nil];
+        [self.pathArray addObject:d];
+    
+    // if group
+    } else if ([isaType isEqualToString:kGroupType]) {
+    
+        // Append group name to realPath & virtualPath
+    
+        // foreach children
+        // Going deeper!
+        // pathForKey:childrenKey realPath:&realPath virtualPath:&virtualPath
+        
+        //virtualPath = [NSString stringWithFormat:@"%@[%@-%@]", virtualPath, name, path];
+        
+        //if (!realPath) realPath = @"";
+        //if (!virtualPath) virtualPath = @"";
+        
+        //if (!path) NSLog(@"no path in group: %@", data);
+        
+        //realPath = (name) ? [path stringByAppendingString:name] : path;
+        if (path) realPath = [realPath stringByAppendingPathComponent:path];
+        
+        if (firstPass) {
+            realPath = @"";
+            virtualPath = @"";
+        }
+        
+        for (NSString *cKey in [data objectForKey:kPBChildren]) {
+            [self pathForKey:cKey realPath:realPath virtualPath:virtualPath];
+        }
+    }    
+}
+
+- (void)constructPaths
+{
+    
+    [self pathForKey:self.masterKey realPath:nil virtualPath:nil];
+    //NSLog(@"paths: %@", self.pathArray);    
+}
+
+- (BOOL)isComponent:(NSString *)component existsInPath:(NSString *)path
+{
+    BOOL isComponentExists = NO;
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSError *error;
+    NSArray *array = [fm contentsOfDirectoryAtPath:path error:&error];
+    
+    for (NSString *comp in array)
+    {
+        if ([comp isEqualToString:component])
+        {
+            isComponentExists = YES;
+        }
+    }    
+    
+    return isComponentExists;
+}
+
+- (void) organizePaths:(NSString *)projectFilePath
+{
+    //NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
+    
+    NSString *filePath = [projectFilePath stringByDeletingLastPathComponent];
+    
+    [self openFile:[projectFilePath stringByAppendingPathComponent:@"project.pbxproj"]];
+    
+    [self populateFilesAndGroups];
+    
+    [self constructPaths];
+    
+    [self printPaths];
+    
+    //NSLog(@"path array %@", self.pathArray);
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    for (NSDictionary *dict in self.pathArray)
+    {
+        NSString *virtualPath = [dict objectForKey:@"virtPath"];
+        NSArray *pathComponents = [virtualPath componentsSeparatedByString:@"/"];
+        
+        NSError *error = nil;
+        NSString *pathToCreate = filePath;
+        for (NSString *component in pathComponents)
+        {
+            NSRange range = [component rangeOfString:@"."];
+            if (range.location == NSNotFound)
+            {
+                    pathToCreate = [pathToCreate stringByAppendingPathComponent: component];
+            }
+        }
+        
+        if ([fm createDirectoryAtPath:pathToCreate withIntermediateDirectories:YES attributes:nil error:&error])
+        {
+            NSLog(@"copied path %@",pathToCreate);
+        }
+        else
+        {
+            NSLog(@"error %@", [error localizedDescription]);
+        }      
+    }
+}
+
+
+
+
 
 - (void)printPaths {
 	//NSLog(@"%@", self.files);

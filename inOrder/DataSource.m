@@ -28,12 +28,37 @@
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
     NSString *title = (item == nil) ? @"/" : (id)[item relativePath];
-    int state = 1;
+    
+    BOOL checked = NO;
+    BOOL hideCheckbox = [item isFile];
+    
+    if (hideCheckbox) return title;
+    
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
-                       [NSNumber numberWithInt:state], @"state",
                        title, @"title",
+                       [NSNumber numberWithBool:checked], @"state",
+                       [NSNumber numberWithBool:hideCheckbox], @"hideCheckbox",
                        nil];
     return d;
+}
+
+/*
+- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+    if (!item) {
+
+    }
+}
+*/
+
+- (NSCell *)outlineView:(NSOutlineView *)outlineView dataCellForTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+    if ([item isFile]) {
+        NSCell *cell = [[NSCell alloc] init];
+        [cell setType:NSTextCellType];
+        return [cell autorelease];    
+    }
+    return nil;
 }
 
 // Delegate methods

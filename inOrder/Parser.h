@@ -51,6 +51,13 @@
 	NSMutableString *groupPath;
 	int depthOfPath;
 	NSMutableArray *pathArray;
+    
+    // The object root of all linked catalog files and the project file
+	NSMutableArray          *objectRoot;
+	
+	// Stack used to prevent infinite recursion when linking/flattening, for example when linking an
+	// object whose children link back to the same object
+	NSMutableArray          *linkStack;
 }
 
 @property (retain) NSDictionary *originalDict;
@@ -62,13 +69,19 @@
 @property (retain) NSMutableString *groupPath;
 @property (retain) NSMutableArray *pathArray;
 
+@property (retain) NSMutableArray *changedGroups;
+
 - (void)openFile:(NSString *)fileName;
 - (BOOL)saveFileTo:(NSString *)path;
 //- (NSString *)archiveFile;
 - (void)populateFilesAndGroups;
 
+- (void)constructPaths;
+
 - (void)printFiles;
 - (void)printGroups;
 - (void)printPaths;
+
+- (void) organizePaths:(NSString *)filePath;
 
 @end
