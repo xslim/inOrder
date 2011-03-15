@@ -14,6 +14,7 @@
 - (BOOL)isChildInGroupArray:(NSString *)childKey;
 - (int)getFileIndexInArray:(NSString *)fileKey;
 - (NSString *)getFileDirectory:(NSString *)fileKey;
+- (NSString *)makeRealPath:(NSString *)parcedPath basePath:(NSString *)basePath;
 
 @end
 
@@ -299,9 +300,9 @@ static NSString *kPBChildren = @"children";
         // use realPath & virtualPath
         // Add it to array
         // finish
-        
+          
         realPath = (path) ? [realPath stringByAppendingPathComponent:path] : [realPath stringByAppendingPathComponent:name];
-        
+        NSLog(@"real path1 %@", realPath);
         if (!path) path = @"";
         if (!name) name = @"";
         
@@ -374,9 +375,7 @@ static NSString *kPBChildren = @"children";
 }
 
 - (void) organizePaths:(NSString *)projectFilePath
-{
-    //NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
-    
+{    
     NSString *filePath = [projectFilePath stringByDeletingLastPathComponent];
     
     [self openFile:[projectFilePath stringByAppendingPathComponent:@"project.pbxproj"]];
@@ -392,23 +391,25 @@ static NSString *kPBChildren = @"children";
     NSFileManager *fm = [NSFileManager defaultManager];
     for (NSDictionary *dict in self.pathArray)
     {
-        NSString *virtualPath = [dict objectForKey:@"virtPath"];
+        //NSString *fileName = [[dict objectForKey:@"virtPath"] lastPathComponent];
+        NSString *realPath = [self makeRealPath:[dict objectForKey:@"realPath"] basePath:filePath];
+                
+        NSString *virtualPath = [[dict objectForKey:@"virtPath"] stringByDeletingLastPathComponent];
         NSArray *pathComponents = [virtualPath componentsSeparatedByString:@"/"];
         
         NSError *error = nil;
         NSString *pathToCreate = filePath;
         for (NSString *component in pathComponents)
         {
-            NSRange range = [component rangeOfString:@"."];
-            if (range.location == NSNotFound)
-            {
-                    pathToCreate = [pathToCreate stringByAppendingPathComponent: component];
-            }
+            pathToCreate = [pathToCreate stringByAppendingPathComponent: component];
         }
         
         if ([fm createDirectoryAtPath:pathToCreate withIntermediateDirectories:YES attributes:nil error:&error])
         {
-            NSLog(@"copied path %@",pathToCreate);
+            //NSLog(@"copied path %@",pathToCreate);
+            
+            //[fm moveItemAtPath: toPath:<#(NSString *)#> error:<#(NSError **)#>]
+            
         }
         else
         {
@@ -417,7 +418,47 @@ static NSString *kPBChildren = @"children";
     }
 }
 
-
+- (NSString *)makeRealPath:(NSString *)parcedPath basePath:(NSString *)basePath
+{
+    NSString *realPath = @"";
+    NSMutableArray *resultComponents = [[NSMutableArray alloc] init];
+    NSArray *pathComponents = [parcedPath componentsSeparatedByString:@"/"];
+    
+    if ([pathComponents count] > 1)
+    {
+        for (int i = 0; i < [pathComponents count]; i++)
+        {   
+            NSString *component = [pathComponents objectAtIndex:i];
+            NSRange range = [component rangeOfString:@".."];
+            
+            if (range.location != NSNotFound) 
+            {
+                [resultComponents removeLastObject];
+            }
+            else
+            {
+                [resultComponents addObject:component];
+            }
+        }
+        
+        for (NSString *str in resultComponents)
+        {
+            realPath = [realPath stringByAppendingPathComponent:str];
+        }
+    }
+    else
+    {
+        realPath = [basePath stringByAppendingPathComponent:[pathComponents objectAtIndex:0]];
+    }
+    
+    [resultComponents release];   
+   
+    
+    //NSLog(@"path components %@", resultComponents);
+    //NSLog(@"real path %@", realPath);
+    
+    return realPath;
+}
 
 
 
@@ -511,6 +552,7 @@ static NSString *kPBChildren = @"children";
 			}
 		}
 	}
+    NSLog(@"path array %@", self.pathArray);
 }
 
 -(NSString *)getFileDirectory:(NSString *)fileKey
