@@ -68,6 +68,7 @@
 @property (retain) NSMutableArray *resultArray;
 @property (retain) NSMutableString *groupPath;
 @property (retain) NSMutableArray *pathArray;
+@property (retain) NSString *projectFilePath;
 
 @property (retain) NSMutableArray *changedGroups;
 

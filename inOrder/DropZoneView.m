@@ -55,7 +55,7 @@
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
 {
-    NSLog(@"performDragOperation sender: %@\ntypes:\n%@", sender, [[sender draggingPasteboard] types]);
+    //NSLog(@"performDragOperation sender: %@\ntypes:\n%@", sender, [[sender draggingPasteboard] types]);
     
     
     

@@ -4,17 +4,17 @@
    version = "1.0">
    <FileBreakpoints>
       <FileBreakpoint
-         shouldBeEnabled = "No"
+         shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "inOrder/Parser.m"
-         timestampString = "321397885.671999"
+         timestampString = "322315915.714891"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "412"
-         endingLineNumber = "412"
-         landmarkName = "-organizePaths:"
+         startingLineNumber = "609"
+         endingLineNumber = "609"
+         landmarkName = "-printPaths"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -23,25 +23,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "inOrder/Parser.m"
-         timestampString = "321820599.82952"
+         timestampString = "322317181.840498"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "555"
-         endingLineNumber = "555"
-         landmarkName = "-printPaths"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "inOrder/Parser.m"
-         timestampString = "321820746.970207"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "249"
-         endingLineNumber = "249"
+         startingLineNumber = "377"
+         endingLineNumber = "377"
          landmarkName = "-pathForKey:realPath:virtualPath:"
          landmarkType = "5">
       </FileBreakpoint>
