@@ -29,6 +29,8 @@
 		55BAF14613185FF20097CAAC /* xcode.png in Resources */ = {isa = PBXBuildFile; fileRef = 55BAF14413185FF20097CAAC /* xcode.png */; };
 		55BAF149131862BD0097CAAC /* DropZoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BAF148131862BD0097CAAC /* DropZoneView.m */; };
 		55BAF153131876120097CAAC /* bgPattern.png in Resources */ = {isa = PBXBuildFile; fileRef = 55BAF152131876120097CAAC /* bgPattern.png */; };
+		55D903ED13606F3300B42FB9 /* LoadSavePB.m in Sources */ = {isa = PBXBuildFile; fileRef = 5575A55D131A7EF600AFEB2A /* LoadSavePB.m */; };
+		55D903F01360702200B42FB9 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D903EF1360702200B42FB9 /* Utilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +84,7 @@
 		55BAF147131862BD0097CAAC /* DropZoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropZoneView.h; sourceTree = "<group>"; };
 		55BAF148131862BD0097CAAC /* DropZoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropZoneView.m; sourceTree = "<group>"; };
 		55BAF152131876120097CAAC /* bgPattern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bgPattern.png; sourceTree = "<group>"; };
+		55D903EF1360702200B42FB9 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utilities.m; path = convertmake/convertmake/src/Utilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +211,7 @@
 				5575A55C131A7EF600AFEB2A /* LoadSavePB.h */,
 				5575A55D131A7EF600AFEB2A /* LoadSavePB.m */,
 				5575A55E131A7EF600AFEB2A /* Utilities.h */,
+				55D903EF1360702200B42FB9 /* Utilities.m */,
 			);
 			name = tmp;
 			sourceTree = "<group>";
@@ -342,6 +346,8 @@
 				5575A562131A926A00AFEB2A /* DataItem.m in Sources */,
 				5575A56D131A954E00AFEB2A /* DataSource.m in Sources */,
 				5575A570131A9B8F00AFEB2A /* TKCheckCell.m in Sources */,
+				55D903ED13606F3300B42FB9 /* LoadSavePB.m in Sources */,
+				55D903F01360702200B42FB9 /* Utilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

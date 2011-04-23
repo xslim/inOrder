@@ -18,7 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "config.h"
 
 #import "EditPB.h"
-#import "MyNSObject.h"
+//#import "MyNSObject.h"
 #import "Utilities.h"
 
 @implementation EditPB

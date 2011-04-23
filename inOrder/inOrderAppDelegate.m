@@ -8,6 +8,7 @@
 
 #import "inOrderAppDelegate.h"
 #import "Parser.h"
+#import "LoadSavePB.h"
 
 @implementation inOrderAppDelegate
 
@@ -49,6 +50,14 @@
     // !! Do something here with the file path !!
     NSLog(@"Dropped file: %@ from %@", path, sender);
     
+    Parser *p = [[Parser alloc] init];
+    [p organizePaths:path];
+    [p release];
+    
+    //LoadSavePB *pb = [[LoadSavePB alloc] initWithFile:path];
+    //[pb link];
+    //NSMutableDictionary *pbDict = [pb getLinkedGraph];
+    //[pb release];
     
     //NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
 	//NSSize newSize = NSMakeSize([image frame].size.width, [image frame].size.height);
@@ -62,22 +71,12 @@
 
 - (IBAction)testParser
 {
-//    Parser *p = [[Parser alloc] init];
-//    
-//    NSString *dataFile = [[NSBundle bundleForClass:[self class]] pathForResource:@"project" ofType:@"pbxproj"];
-//    [p openFile:dataFile];
-//    
-//    [p populateFilesAndGroups];
-//    
-//    [p constructPaths];
-//    
-//    //[p printFiles];
-//    //[p printGroups];
-//    
-//    //[p printPaths];
-//    //NSLog(@"result %@", p.files);
-//    
-//    [p release];
+    NSString *dataFile = @"/Users/slim/src/FoodEx/FoodEx.xcodeproj";
+    
+    Parser *p = [[Parser alloc] init];
+    [p organizePaths:dataFile];
+    
+    [p release];
     
 }
 

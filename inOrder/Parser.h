@@ -42,7 +42,7 @@
 // plutil -convert xml1 -o - myproj.xcodeproj/project.pbxproj ?
 
 @interface Parser : NSObject {
-    NSDictionary *originalDict;
+
     NSMutableArray *files;
     NSMutableArray *groups;
 	NSString *masterKey;
@@ -60,7 +60,7 @@
 	NSMutableArray          *linkStack;
 }
 
-@property (retain) NSDictionary *originalDict;
+@property (retain) NSMutableDictionary *originalDict;
 @property (retain) NSMutableArray *files;
 @property (retain) NSMutableArray *groups;
 @property (retain) NSString *masterKey;
@@ -70,9 +70,20 @@
 @property (retain) NSMutableArray *pathArray;
 @property (retain) NSString *projectFilePath;
 
+@property (retain) NSMutableArray *objectBuffer;
+
 @property (retain) NSMutableArray *changedGroups;
 
+
+
+- (void)addObjectsToBuffer:(NSArray *)items;
+- (void)pathForKey:(NSString *)key realPath:(NSString *)realPath virtualPath:(NSString *)virtualPath
+       rootObjects:(NSMutableArray *)rootObjects;
+
 - (void)openFile:(NSString *)fileName;
+- (void)organizePaths:(NSString *)filePath;
+- (void)findMasterKey;
+
 - (BOOL)saveFileTo:(NSString *)path;
 //- (NSString *)archiveFile;
 - (void)populateFilesAndGroups;
@@ -83,6 +94,6 @@
 - (void)printGroups;
 - (void)printPaths;
 
-- (void) organizePaths:(NSString *)filePath;
+
 
 @end

@@ -18,7 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #import "LoadSavePB.h"
 #import "Utilities.h"
-#import "MyNSObject.h"
+//#import "MyNSObject.h"
 
 #import <fcntl.h> // for open(), close(), write()
 #import <unistd.h>
