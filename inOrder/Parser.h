@@ -69,6 +69,7 @@
 @property (retain) NSMutableString *groupPath;
 @property (retain) NSMutableArray *pathArray;
 @property (retain) NSString *projectFilePath;
+@property (retain) NSString *projectPath;
 
 @property (retain) NSMutableArray *objectBuffer;
 
@@ -94,6 +95,7 @@
 - (void)printGroups;
 - (void)printPaths;
 
-
+- (void)moveObject:(NSString *)objectKey fromPath:(NSString *)fromPath toPath:(NSString *)toPath;
+- (void)fixObjects;
 
 @end
