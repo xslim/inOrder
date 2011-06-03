@@ -29,8 +29,6 @@
 		55BAF14613185FF20097CAAC /* xcode.png in Resources */ = {isa = PBXBuildFile; fileRef = 55BAF14413185FF20097CAAC /* xcode.png */; };
 		55BAF149131862BD0097CAAC /* DropZoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BAF148131862BD0097CAAC /* DropZoneView.m */; };
 		55BAF153131876120097CAAC /* bgPattern.png in Resources */ = {isa = PBXBuildFile; fileRef = 55BAF152131876120097CAAC /* bgPattern.png */; };
-		55D903ED13606F3300B42FB9 /* LoadSavePB.m in Sources */ = {isa = PBXBuildFile; fileRef = 5575A55D131A7EF600AFEB2A /* LoadSavePB.m */; };
-		55D903F01360702200B42FB9 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D903EF1360702200B42FB9 /* Utilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,11 +66,6 @@
 		553274901316844C00561100 /* project.pbxproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.pbxproject; path = project.pbxproj; sourceTree = "<group>"; };
 		5532758613183F5E00561100 /* ParserTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParserTests.h; sourceTree = "<group>"; };
 		5532758713183F5E00561100 /* ParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParserTests.m; sourceTree = "<group>"; };
-		5575A55A131A7EF600AFEB2A /* EditPB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EditPB.h; path = tmp/EditPB.h; sourceTree = "<group>"; };
-		5575A55B131A7EF600AFEB2A /* EditPB.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = EditPB.m; path = tmp/EditPB.m; sourceTree = "<group>"; };
-		5575A55C131A7EF600AFEB2A /* LoadSavePB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoadSavePB.h; path = tmp/LoadSavePB.h; sourceTree = "<group>"; };
-		5575A55D131A7EF600AFEB2A /* LoadSavePB.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LoadSavePB.m; path = tmp/LoadSavePB.m; sourceTree = "<group>"; };
-		5575A55E131A7EF600AFEB2A /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = tmp/Utilities.h; sourceTree = "<group>"; };
 		5575A560131A926A00AFEB2A /* DataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataItem.h; sourceTree = "<group>"; };
 		5575A561131A926A00AFEB2A /* DataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataItem.m; sourceTree = "<group>"; };
 		5575A56B131A954D00AFEB2A /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
@@ -84,7 +77,6 @@
 		55BAF147131862BD0097CAAC /* DropZoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropZoneView.h; sourceTree = "<group>"; };
 		55BAF148131862BD0097CAAC /* DropZoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropZoneView.m; sourceTree = "<group>"; };
 		55BAF152131876120097CAAC /* bgPattern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bgPattern.png; sourceTree = "<group>"; };
-		55D903EF1360702200B42FB9 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utilities.m; path = convertmake/convertmake/src/Utilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +104,6 @@
 			children = (
 				5532744D1316817400561100 /* inOrder */,
 				553274681316817500561100 /* inOrderTests */,
-				5575A558131A7ECE00AFEB2A /* tmp */,
 				553274461316817400561100 /* Frameworks */,
 				553274441316817400561100 /* Products */,
 			);
@@ -201,19 +192,6 @@
 				5532746E1316817500561100 /* inOrderTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		5575A558131A7ECE00AFEB2A /* tmp */ = {
-			isa = PBXGroup;
-			children = (
-				5575A55A131A7EF600AFEB2A /* EditPB.h */,
-				5575A55B131A7EF600AFEB2A /* EditPB.m */,
-				5575A55C131A7EF600AFEB2A /* LoadSavePB.h */,
-				5575A55D131A7EF600AFEB2A /* LoadSavePB.m */,
-				5575A55E131A7EF600AFEB2A /* Utilities.h */,
-				55D903EF1360702200B42FB9 /* Utilities.m */,
-			);
-			name = tmp;
 			sourceTree = "<group>";
 		};
 		55BAF14213185FF20097CAAC /* Images */ = {
@@ -346,8 +324,6 @@
 				5575A562131A926A00AFEB2A /* DataItem.m in Sources */,
 				5575A56D131A954E00AFEB2A /* DataSource.m in Sources */,
 				5575A570131A9B8F00AFEB2A /* TKCheckCell.m in Sources */,
-				55D903ED13606F3300B42FB9 /* LoadSavePB.m in Sources */,
-				55D903F01360702200B42FB9 /* Utilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
