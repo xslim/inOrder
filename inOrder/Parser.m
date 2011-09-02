@@ -16,7 +16,7 @@
 - (BOOL)isChildInGroupArray:(NSString *)childKey;
 - (int)getFileIndexInArray:(NSString *)fileKey;
 - (NSString *)getFileDirectory:(NSString *)fileKey;
-- (void)createNecessaryDirsAndCopyFiles:(NSString *)filePath;
+//- (void)createNecessaryDirsAndCopyFiles:(NSString *)filePath;
 
 @end
 
@@ -24,7 +24,7 @@
 @implementation Parser
 
 @synthesize originalDict, files, groups, masterKey, currentGroupKey, resultArray, groupPath, pathArray, changedGroups, projectFilePath, projectPath;
-@synthesize objectBuffer;
+@synthesize objectBuffer, simulate;
 
 static NSString *kPBKey = @"key";
 static NSString *kPBName = @"name";
@@ -181,15 +181,21 @@ static NSString *kPBSourceTree = @"sourceTree";
 {
     
     NSFileManager *fm = [NSFileManager defaultManager];
+    BOOL isSaved = NO;
     
-    
-    NSError *error = nil;
-    if ([fm fileExistsAtPath:path]) {
-        [fm removeItemAtPath:path error:&error];
-        if (error) NSLog(@"Error: %@", [error localizedDescription]);
+    if (self.simulate) {
+        isSaved = YES;
+    } else {
+        NSError *error = nil;
+        if ([fm fileExistsAtPath:path]) {
+            [fm removeItemAtPath:path error:&error];
+            if (error) NSLog(@"Error: %@", [error localizedDescription]);
+        }
+        
+        isSaved = [self.originalDict writeToFile:path atomically:YES];
     }
     
-    BOOL isSaved = [self.originalDict writeToFile:path atomically:YES];
+    
     
     NSLog(@"Saving project: %@, saved: %d", path, isSaved);
     
@@ -378,6 +384,7 @@ rootObjects:(NSMutableArray *)rootObjects
     if ([source isEqualToString:kSourceTreeTypeRoot]) {
         // ignore previous path
         realPath = (path) ? path : @"=== no path ??? ===";
+        if (!name) name = path;
         if (name) {
             virtualPath = [virtualPath stringByAppendingPathComponent:name];
         }
@@ -399,6 +406,15 @@ rootObjects:(NSMutableArray *)rootObjects
     // Check if data is group / file
     NSString *isaType = [data objectForKey:kIsa];
     
+    if (name && [name rangeOfString:@"xcodeproj"].location != NSNotFound) {
+        NSLog(@"xcodeproj name: %@ detected, ignoring!", name);
+        return;
+    }
+    
+    if (name && [name rangeOfString:@"Local"].location != NSNotFound) {
+        NSLog(@"Local found");
+    }
+    
     // if file
     if ([isaType isEqualToString:kFileType]) {
         
@@ -407,6 +423,10 @@ rootObjects:(NSMutableArray *)rootObjects
          
             realPath = (path) ? [realPath stringByAppendingPathComponent:path] : [realPath stringByAppendingPathComponent:name];
         }
+        
+        //if (realPath && [realPath rangeOfString:@"plist"].location != NSNotFound) {
+        //    NSLog(@"api.plist");
+        //}
         
         // if real == virtual, don't proceed
         if ([realPath isEqualToString:virtualPath]) {
@@ -449,76 +469,6 @@ rootObjects:(NSMutableArray *)rootObjects
     
     [self pathForKey:self.masterKey realPath:nil virtualPath:nil rootObjects:nil];
     //NSLog(@"paths: %@", self.pathArray);    
-}
-
-- (BOOL)isComponent:(NSString *)component existsInPath:(NSString *)path
-{
-    BOOL isComponentExists = NO;
-    
-    NSFileManager *fm = [NSFileManager defaultManager];
-    NSError *error;
-    NSArray *array = [fm contentsOfDirectoryAtPath:path error:&error];
-    
-    for (NSString *comp in array)
-    {
-        if ([comp isEqualToString:component])
-        {
-            isComponentExists = YES;
-        }
-    }    
-    
-    return isComponentExists;
-}
-
-
-
-- (void)createNecessaryDirsAndCopyFiles:(NSString *)projectFilePath_ {
-    
-    
-    NSString *filePath = [projectFilePath_ stringByDeletingLastPathComponent];
-    
-    //self.projectFilePath = filePath;
-    
-    NSFileManager *fm = [NSFileManager defaultManager];
-    
-    for (NSDictionary *dict in self.pathArray)
-    {
-        //NSString *fileName = [[dict objectForKey:@"virtPath"] lastPathComponent];
-        NSString *realPath = [dict objectForKey:@"realPath"];//[self makeRealPath:[dict objectForKey:@"realPath"] basePath:filePath];
-        
-        NSString *virtualPath = [[dict objectForKey:@"virtPath"] stringByDeletingLastPathComponent];
-        NSArray *pathComponents = [virtualPath componentsSeparatedByString:@"/"];
-        
-        NSError *error = nil;
-        NSString *pathToCreate = filePath;
-        for (NSString *component in pathComponents)
-        {
-            pathToCreate = [pathToCreate stringByAppendingPathComponent: component];
-        }
-        
-        if ([fm createDirectoryAtPath:pathToCreate withIntermediateDirectories:YES attributes:nil error:&error])
-        {
-            //NSLog(@"copied path %@",pathToCreate);
-            NSError *error = nil;
-            NSString *pathToMove = [filePath stringByAppendingPathComponent:realPath];
-            if (![fm fileExistsAtPath:[filePath stringByAppendingPathComponent:[dict objectForKey:@"virtPath"]]]) {            
-                [fm moveItemAtPath:pathToMove toPath:[filePath stringByAppendingPathComponent:[dict objectForKey:@"virtPath"]] error:&error];
-            }
-            
-            if (error) {
-                //NSLog(@"error while copying files %@", [error localizedDescription]);
-            }            
-        }
-        else
-        {
-            NSLog(@"error %@", [error localizedDescription]);
-        }    
-        
-        //NSString *path = [filePath stringByAppendingPathComponent:@"project.pbxproj"];
-        
-        [self saveFileTo:[projectFilePath_ stringByAppendingPathComponent:@"project.pbxproj"]];
-    }
-
 }
 
 
@@ -717,21 +667,28 @@ rootObjects:(NSMutableArray *)rootObjects
     
     NSError *error = nil;
 
-    if ([fm createDirectoryAtPath:[toPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:&error])
-    {
-        
-        if ([fm fileExistsAtPath:fromPath]) {            
-            [fm moveItemAtPath:fromPath toPath:toPath error:&error];
+    if (self.simulate) {
+        NSLog(@"%@ -> %@", [fromPath stringByReplacingOccurrencesOfString:self.projectPath withString:@""], 
+              [toPath stringByReplacingOccurrencesOfString:self.projectPath withString:@""]);
+    } else {
+        if ([fm createDirectoryAtPath:[toPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:&error])
+        {
             
-            NSLog(@"%@ -> %@", fromPath, toPath);
-            
-            if (error) NSLog(@"error %@", [error localizedDescription]);
-        }           
+            if ([fm fileExistsAtPath:fromPath]) {            
+                [fm moveItemAtPath:fromPath toPath:toPath error:&error];
+                
+                NSLog(@"%@ -> %@", fromPath, toPath);
+                
+                if (error) NSLog(@"error %@", [error localizedDescription]);
+            }           
+        }
+        else
+        {
+            NSLog(@"error %@", [error localizedDescription]);
+        }
     }
-    else
-    {
-        NSLog(@"error %@", [error localizedDescription]);
-    }
+    
+    
     
     //NSLog(@"New data: %@", data);
 }

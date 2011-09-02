@@ -51,6 +51,7 @@
     NSLog(@"Dropped file: %@ from %@", path, sender);
     
     Parser *p = [[Parser alloc] init];
+    p.simulate = YES;
     [p organizePaths:path];
     [p release];
     
@@ -71,9 +72,10 @@
 
 - (IBAction)testParser
 {
-    NSString *dataFile = @"/Users/slim/src/FoodEx/FoodEx.xcodeproj";
+    NSString *dataFile = @"/Users/slim/src/inOrder/tmp/photobox.xcodeproj";
     
     Parser *p = [[Parser alloc] init];
+    p.simulate = YES;
     [p organizePaths:dataFile];
     
     [p release];

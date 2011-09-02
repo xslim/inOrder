@@ -11,6 +11,8 @@
 @interface inOrderAppDelegate : NSObject <NSApplicationDelegate> {
 @private
     NSWindow *window;
+    NSView *mainView;
+    NSView *dropZone;
 }
 
 @property (assign) IBOutlet NSWindow *window;

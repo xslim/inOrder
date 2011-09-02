@@ -75,7 +75,7 @@
 
 @property (retain) NSMutableArray *changedGroups;
 
-
+@property (assign) BOOL simulate;
 
 - (void)addObjectsToBuffer:(NSArray *)items;
 - (void)pathForKey:(NSString *)key realPath:(NSString *)realPath virtualPath:(NSString *)virtualPath
